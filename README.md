@@ -1,17 +1,19 @@
 # Tap build artifact buildkite plugin
 
-A private [Buildkite Plugin](https://buildkite.com/docs/agent/v3/plugins) to upload and download build artifacts for 
+A private [Buildkite Plugin](https://buildkite.com/docs/agent/v3/plugins) to upload and download build artifacts
 
 ## Example
 
 ```yml
 steps:
   - label: ':lint-roller: Validate my schemas!'
+    env:
+      - YOUR_ENV: 'path/to/*'
     plugins:
-      - tapendium/tap-build-artifact-buildkite-plugin#v1.0.0:
+      - tapendium/tap-build-artifact#v1.0.0:
           debug: true
-          repo: organisations
-          artifact-path-env: YOUR_ENV 
+          type: download
+          artifacts-path-env: YOUR_ENV 
 ```
 
 ## Developing

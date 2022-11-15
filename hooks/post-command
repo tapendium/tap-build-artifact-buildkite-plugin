@@ -1,0 +1,41 @@
+#!/bin/bash
+
+set -eo pipefail
+
+CWD="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+PREFIX="BUILDKITE_PLUGIN_TAP_BUILD_ARTIFACT_"
+DEBUG_FLAG="${PREFIX}DEBUG"
+
+# shellcheck source=lib/shared.sh
+. "$CWD/../lib/shared.sh"
+
+COMMIT_HASH=$(git rev-parse HEAD)
+TYPE=$(plugin_read_config TYPE)
+ARTIFACTS_PATH_ENV=$(plugin_read_config ARTIFACTS_PATH_ENV)
+
+if [[ "${!DEBUG_FLAG:-false}" =~ (true|on|1) ]] ; then
+  echo "~~~ :hammer: Enabling debug mode"
+  set -x
+fi
+
+IS_VALID=true
+if [ -z "$TYPE" ]; then
+  echo "[ERROR] type not defined"
+  IS_VALID=false
+fi
+
+if [ -z "$ARTIFACTS_PATH_ENV" ]; then
+  echo "[ERROR] artifacts-path-env not defined"
+  IS_VALID=false
+fi
+
+if [[ ${IS_VALID:-true} =~ (false) ]]; then
+  exit 1
+fi
+
+if [[ "$TYPE" = "upload" ]]
+then
+  buildkite_metadata_set "TAP_BUILD_$COMMIT_HASH" "$BUILDKITE_BUILD_ID"
+  buildkite_artifact_upload "${!ARTIFACTS_PATH_ENV}"
+fi
+

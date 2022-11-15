@@ -1,0 +1,19 @@
+name: tap-build-artifact-buildkite-plugin
+description: Tap build artifact buildkite plugin
+author: https://tapendium.com
+requirements:
+  - docker
+configuration:
+  properties:
+    artifacts-path-env:
+      type: string
+    type:
+      type: string
+      enum: ["download", "upload"]
+    debug:
+      type: boolean
+  required:
+    - type
+    - artifacts-path-env
+  additionalProperties: false
+
