@@ -18,15 +18,15 @@ function buildkite-agent() {
 	run "$post_command_hook"
 	assert_failure
 	assert_output --partial "[ERROR] type not defined"
-	assert_output --partial "[ERROR] artifacts-path-env not defined"
 }
 
+# artifacts-path-env can be optional on upload
 @test "Runs and failed when artifacts-path-env not defined" {
   export ${prefix}TYPE="upload"
+  export -f buildkite-agent
   export -f git
 	run "$post_command_hook"
-	assert_failure
-	assert_output --partial "[ERROR] artifacts-path-env not defined"
+	assert_success
 }
 
 @test "Runs and failed when type not defined" {

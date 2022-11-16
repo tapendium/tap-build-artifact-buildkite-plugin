@@ -24,11 +24,6 @@ if [ -z "$TYPE" ]; then
   IS_VALID=false
 fi
 
-if [ -z "$ARTIFACTS_PATH_ENV" ]; then
-  echo "[ERROR] artifacts-path-env not defined"
-  IS_VALID=false
-fi
-
 if [[ ${IS_VALID:-true} =~ (false) ]]; then
   exit 1
 fi
@@ -36,6 +31,8 @@ fi
 if [[ "$TYPE" = "upload" ]]
 then
   buildkite_metadata_set "TAP_BUILD_$COMMIT_HASH" "$BUILDKITE_BUILD_ID"
-  buildkite_artifact_upload "${!ARTIFACTS_PATH_ENV}"
+  if [ -n "$ARTIFACTS_PATH_ENV" ]; then
+    buildkite_artifact_upload "${!ARTIFACTS_PATH_ENV}"
+  fi
 fi
 
