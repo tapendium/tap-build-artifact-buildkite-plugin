@@ -18,6 +18,11 @@ if [[ "${!DEBUG_FLAG:-false}" =~ (true|on|1) ]] ; then
   set -x
 fi
 
+if [[ "$TYPE" -ne "upload" ]]
+then
+  exit 1
+fi
+
 IS_VALID=true
 if [ -z "$TYPE" ]; then
   echo "[ERROR] type not defined"
@@ -28,11 +33,8 @@ if [[ ${IS_VALID:-true} =~ (false) ]]; then
   exit 1
 fi
 
-if [[ "$TYPE" = "upload" ]]
-then
-  buildkite_metadata_set "TAP_BUILD_$COMMIT_HASH" "$BUILDKITE_BUILD_ID"
-  if [ -n "$ARTIFACTS_PATH_ENV" ]; then
-    buildkite_artifact_upload "${!ARTIFACTS_PATH_ENV}"
-  fi
+buildkite_metadata_set "TAP_BUILD_$COMMIT_HASH" "$BUILDKITE_BUILD_ID"
+if [ -n "$ARTIFACTS_PATH_ENV" ]; then
+  buildkite_artifact_upload "${!ARTIFACTS_PATH_ENV}"
 fi
 

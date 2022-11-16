@@ -18,6 +18,11 @@ if [[ "${!DEBUG_FLAG:-false}" =~ (true|on|1) ]] ; then
   set -x
 fi
 
+if [[ "$TYPE" -ne "download" ]]
+then
+  exit 1
+fi
+
 IS_VALID=true
 if [ -z "$TYPE" ]; then
   echo "[ERROR] type not defined"
@@ -33,8 +38,5 @@ if [[ ${IS_VALID:-true} =~ (false) ]]; then
   exit 1
 fi
 
-if [[ "$TYPE" = "download" ]]
-then
-  BUILD_ID=$(buildkite_metadata_get "TAP_BUILD_$COMMIT_HASH")
-  buildkite_artifact_download "${!ARTIFACTS_PATH_ENV}" '.' --build "$BUILD_ID"
-fi
+BUILD_ID=$(buildkite_metadata_get "TAP_BUILD_$COMMIT_HASH")
+buildkite_artifact_download "${!ARTIFACTS_PATH_ENV}" '.' --build "$BUILD_ID"
