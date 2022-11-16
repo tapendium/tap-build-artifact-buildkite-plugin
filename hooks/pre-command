@@ -9,6 +9,7 @@ DEBUG_FLAG="${PREFIX}DEBUG"
 # shellcheck source=lib/shared.sh
 . "$CWD/../lib/shared.sh"
 
+RUN_TYPE=download
 COMMIT_HASH=$(git rev-parse HEAD)
 TYPE=$(plugin_read_config TYPE)
 ARTIFACTS_PATH_ENV=$(plugin_read_config ARTIFACTS_PATH_ENV)
@@ -18,7 +19,7 @@ if [[ "${!DEBUG_FLAG:-false}" =~ (true|on|1) ]] ; then
   set -x
 fi
 
-if [[ "$TYPE" -ne "download" ]]
+if [[ "$TYPE" -ne "$RUN_TYPE" ]]
 then
   exit 1
 fi
