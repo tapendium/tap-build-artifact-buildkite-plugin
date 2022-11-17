@@ -16,7 +16,7 @@ function buildkite-agent() {
 @test "Runs and failed when no arguments define" {
   export -f git
 	run "$post_command_hook"
-	assert_failure
+	assert_success
 	assert_output --partial "[INFO] type not equal upload"
 }
 
@@ -34,7 +34,7 @@ function buildkite-agent() {
   export ${prefix}ARTIFACTS_PATH_ENV="SOME_ENV"
   export -f git
 	run "$post_command_hook"
-	assert_failure
+	assert_success
 	assert_output --partial "[INFO] type not equal upload"
 }
 

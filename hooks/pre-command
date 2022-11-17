@@ -9,15 +9,15 @@ DEBUG_FLAG="${PREFIX}DEBUG"
 # shellcheck source=lib/shared.sh
 . "$CWD/../lib/shared.sh"
 
-RUN_TYPE=download
-COMMIT_HASH=$(git rev-parse HEAD)
-TYPE=$(plugin_read_config TYPE)
-ARTIFACTS_PATH_ENV=$(plugin_read_config ARTIFACTS_PATH_ENV)
-
 if [[ "${!DEBUG_FLAG:-false}" =~ (true|on|1) ]] ; then
   echo "~~~ :hammer: Enabling debug mode"
   set -x
 fi
+
+RUN_TYPE=download
+COMMIT_HASH=$(git rev-parse HEAD)
+TYPE=$(plugin_read_config TYPE)
+ARTIFACTS_PATH_ENV=$(plugin_read_config ARTIFACTS_PATH_ENV)
 
 if [ "$TYPE" != "$RUN_TYPE" ]
 then

@@ -13,11 +13,11 @@ function buildkite-agent() {
 	echo "Runs buildkite-agent"
 }
 
-@test "Runs and failed when no arguments define" {
+@test "Runs and success when no arguments define" {
   export -f buildkite-agent
   export -f git
 	run "$pre_command_hook"
-	assert_failure
+	assert_success
 	assert_output --partial "[INFO] type not equal download"
 }
 
@@ -36,7 +36,7 @@ function buildkite-agent() {
   export -f buildkite-agent
   export -f git
 	run "$pre_command_hook"
-	assert_failure
+	assert_success
 	assert_output --partial "[INFO] type not equal download"
 }
 
