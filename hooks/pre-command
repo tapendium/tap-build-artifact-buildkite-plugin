@@ -22,7 +22,7 @@ fi
 if [ "$TYPE" != "$RUN_TYPE" ]
 then
   echo "[INFO] type not equal $RUN_TYPE"
-  exit 1
+  exit 0
 fi
 
 IS_VALID=true
