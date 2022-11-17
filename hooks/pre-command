@@ -19,11 +19,6 @@ if [[ "${!DEBUG_FLAG:-false}" =~ (true|on|1) ]] ; then
   set -x
 fi
 
-if [[ "$TYPE" -ne "$RUN_TYPE" ]]
-then
-  exit 1
-fi
-
 IS_VALID=true
 if [ -z "$TYPE" ]; then
   echo "[ERROR] type not defined"
@@ -36,6 +31,11 @@ if [ -z "$ARTIFACTS_PATH_ENV" ]; then
 fi
 
 if [[ ${IS_VALID:-true} =~ (false) ]]; then
+  exit 1
+fi
+
+if [ "$TYPE" != "$RUN_TYPE" ]
+then
   exit 1
 fi
 
