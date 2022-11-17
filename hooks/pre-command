@@ -19,23 +19,21 @@ if [[ "${!DEBUG_FLAG:-false}" =~ (true|on|1) ]] ; then
   set -x
 fi
 
-IS_VALID=true
-if [ -z "$TYPE" ]; then
-  echo "[ERROR] type not defined"
-  IS_VALID=false
+if [ "$TYPE" != "$RUN_TYPE" ]
+then
+  echo "[INFO] type not equal $RUN_TYPE"
+  exit 1
 fi
 
-if [ -z "$ARTIFACTS_PATH_ENV" ]; then
+IS_VALID=true
+
+if [ -z "$ARTIFACTS_PATH_ENV" ]
+then
   echo "[ERROR] artifacts-path-env not defined"
   IS_VALID=false
 fi
 
 if [[ ${IS_VALID:-true} =~ (false) ]]; then
-  exit 1
-fi
-
-if [ "$TYPE" != "$RUN_TYPE" ]
-then
   exit 1
 fi
 

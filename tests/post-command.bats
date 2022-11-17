@@ -17,7 +17,7 @@ function buildkite-agent() {
   export -f git
 	run "$post_command_hook"
 	assert_failure
-	assert_output --partial "[ERROR] type not defined"
+	assert_output --partial "[INFO] type not equal upload"
 }
 
 # artifacts-path-env can be optional on upload
@@ -35,7 +35,7 @@ function buildkite-agent() {
   export -f git
 	run "$post_command_hook"
 	assert_failure
-	assert_output --partial "[ERROR] type not defined"
+	assert_output --partial "[INFO] type not equal upload"
 }
 
 @test "Runs with no errors" {

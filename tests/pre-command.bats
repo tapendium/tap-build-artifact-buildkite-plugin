@@ -18,8 +18,7 @@ function buildkite-agent() {
   export -f git
 	run "$pre_command_hook"
 	assert_failure
-	assert_output --partial "[ERROR] type not defined"
-	assert_output --partial "[ERROR] artifacts-path-env not defined"
+	assert_output --partial "[INFO] type not equal download"
 }
 
 @test "Runs and failed when artifacts-path-env not defined" {
@@ -38,7 +37,7 @@ function buildkite-agent() {
   export -f git
 	run "$pre_command_hook"
 	assert_failure
-	assert_output --partial "[ERROR] type not defined"
+	assert_output --partial "[INFO] type not equal download"
 }
 
 @test "Runs with no errors" {
