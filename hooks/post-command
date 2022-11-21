@@ -1,0 +1,32 @@
+#!/bin/bash
+
+set -eo pipefail
+
+CWD="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+PREFIX="BUILDKITE_PLUGIN_TAP_BUILD_ARTIFACT_"
+DEBUG_FLAG="${PREFIX}DEBUG"
+
+# shellcheck source=lib/shared.sh
+. "$CWD/../lib/shared.sh"
+
+if [[ "${!DEBUG_FLAG:-false}" =~ (true|on|1) ]] ; then
+  echo "~~~ :hammer: Enabling debug mode"
+  set -x
+fi
+
+RUN_TYPE=upload
+COMMIT_HASH=$BUILDKITE_COMMIT
+TYPE=$(plugin_read_config TYPE)
+ARTIFACTS_PATH_ENV=$(plugin_read_config ARTIFACTS_PATH_ENV)
+
+if [ "$TYPE" != "$RUN_TYPE" ]
+then
+  echo "[INFO] type not equal $RUN_TYPE"
+  exit 0
+fi
+
+buildkite_metadata_set "TAP_BUILD_$COMMIT_HASH" "$BUILDKITE_BUILD_ID"
+if [ -n "$ARTIFACTS_PATH_ENV" ]; then
+  buildkite_artifact_upload "${!ARTIFACTS_PATH_ENV}"
+fi
+
