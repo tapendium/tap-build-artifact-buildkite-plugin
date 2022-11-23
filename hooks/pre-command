@@ -15,7 +15,7 @@ if [[ "${!DEBUG_FLAG:-false}" =~ (true|on|1) ]] ; then
 fi
 
 RUN_TYPE=download
-REPO=$(plugin_read_config REPO)
+REPO=${BUILDKITE_REPO:-$(plugin_read_config REPO)} 
 TYPE=$(plugin_read_config TYPE)
 ARTIFACTS_PATH_ENV=$(plugin_read_config ARTIFACTS_PATH_ENV)
 
