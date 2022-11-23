@@ -15,7 +15,7 @@ if [[ "${!DEBUG_FLAG:-false}" =~ (true|on|1) ]] ; then
 fi
 
 RUN_TYPE=download
-COMMIT_HASH=$(git rev-parse HEAD)
+REPO=$(plugin_read_config REPO)
 TYPE=$(plugin_read_config TYPE)
 ARTIFACTS_PATH_ENV=$(plugin_read_config ARTIFACTS_PATH_ENV)
 
@@ -27,6 +27,12 @@ fi
 
 IS_VALID=true
 
+if [ -z "$REPO" ]
+then
+  echo "[ERROR] repo not defined"
+  IS_VALID=false
+fi
+
 if [ -z "$ARTIFACTS_PATH_ENV" ]
 then
   echo "[ERROR] artifacts-path-env not defined"
@@ -36,6 +42,12 @@ fi
 if [[ ${IS_VALID:-true} =~ (false) ]]; then
   exit 1
 fi
+
+HEAD_COMMIT=$(git rev-parse HEAD)
+COMMIT_HASH=$(curl \
+  -H "Authorization: Bearer ${GITHUB_TOKEN}" \
+  https://api.github.com/repos/"${BUILDKITE_ORGANIZATION_SLUG}"/"${REPO}"/commits/"${HEAD_COMMIT}"/pulls |
+  jq -r '.[0].head.sha')
 
 BUILD_ID=$(buildkite_metadata_get "TAP_BUILD_$COMMIT_HASH")
 buildkite_artifact_download "${!ARTIFACTS_PATH_ENV}" '.' --build "$BUILD_ID"
