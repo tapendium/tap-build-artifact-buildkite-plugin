@@ -7,6 +7,8 @@ configuration:
   properties:
     artifacts-path-env:
       type: string
+    repo:
+      type: string
     type:
       type: string
       enum: ["download", "upload"]
