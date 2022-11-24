@@ -1,19 +1,21 @@
 steps:
-  - label: ":hammer: Run unit tests"
-    plugins:
-      docker-compose#v4.3.0:
-        run: tests
-        # cli-version: 2
-
-  - label: ":shell: Shellcheck"
-    plugins:
-      - seek-oss/github-merged-pr#v1.1.2:
-          mode: checkout
-      - shellcheck#v1.3.0:
-          files:
-            - "hooks/*"
-            - "lib/*"
-          options: "-x"
+  - label: "test label"
+    command: echo $BUILDKITE_PIPELINE_NAME
+  # - label: ":hammer: Run unit tests"
+  #   plugins:
+  #     docker-compose#v4.3.0:
+  #       run: tests
+  #       # cli-version: 2
+  #
+  # - label: ":shell: Shellcheck"
+  #   plugins:
+  #     - seek-oss/github-merged-pr#v1.1.2:
+  #         mode: checkout
+  #     - shellcheck#v1.3.0:
+  #         files:
+  #           - "hooks/*"
+  #           - "lib/*"
+  #         options: "-x"
   # - label: ":lint-remover: Run lint"
   #   plugins:
   #     docker-compose#v4.3.0:
