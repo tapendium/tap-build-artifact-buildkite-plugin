@@ -45,11 +45,16 @@ if [[ ${IS_VALID:-true} =~ (false) ]]; then
   exit 1
 fi
 
-HEAD_COMMIT=$(git rev-parse HEAD)
-COMMIT_HASH=$(curl \
+HEAD_COMMIT=$(curl \
   -H "Authorization: Bearer ${GITHUB_TOKEN}" \
-  https://api.github.com/repos/"${BUILDKITE_ORGANIZATION_SLUG}"/"${REPO}"/commits/"${HEAD_COMMIT}"/pulls |
+  https://api.github.com/repos/"${BUILDKITE_ORGANIZATION_SLUG}"/"${REPO}"/commits/"${BUILDKITE_COMMIT}"/pulls |
   jq -r '.[0].head.sha')
+HEAD_COMMIT_BUILD_ID=$(curl \
+  -H "Authorization: Bearer ${BUILDKITE_TOKEN}" \
+  https://api.buildkite.com/v2/organizations/"${BUILDKITE_ORGANIZATION_SLUG}"/pipelines/"${BUILDKITE_PIPELINE_SLUG}"/builds?commit="${HEAD_COMMIT}" |
+  jq -r '.[0].id')
 
-BUILD_ID=$(buildkite_metadata_get "TAP_BUILD_$COMMIT_HASH")
-buildkite_artifact_download "${!ARTIFACTS_PATH_ENV}" '.' --build "$BUILD_ID"
+echo "$HEAD_COMMIT"
+echo "$HEAD_COMMIT_BUILD_ID"
+
+buildkite_artifact_download "${!ARTIFACTS_PATH_ENV}" '.' --build "$HEAD_COMMIT_BUILD_ID"
