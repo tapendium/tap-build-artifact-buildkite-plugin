@@ -1,6 +1,10 @@
 steps:
   - label: "test label"
-    command: echo $BUILDKITE_PIPELINE_NAME
+    commands: 
+      - echo $BUILDKITE_PIPELINE_NAME
+      - echo $BUILDKITE_PIPELINE_SLUG
+      - echo $BUILDKITE_PIPELINE_ID
+
   # - label: ":hammer: Run unit tests"
   #   plugins:
   #     docker-compose#v4.3.0:
