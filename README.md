@@ -10,10 +10,9 @@ steps:
     env:
       - YOUR_ENV: 'path/to/*'
     plugins:
-      - tapendium/tap-build-artifact#v1.0.0:
+      - tapendium/tap-build-artifact#v1.0.3:
           debug: true
           type: download
-          repo: organisations
           artifacts-path-env: YOUR_ENV 
 ```
 
@@ -25,7 +24,7 @@ steps:
     env:
       - YOUR_ENV: 'path/to/*'
     plugins:
-      - tapendium/tap-build-artifact#v1.0.0:
+      - tapendium/tap-build-artifact#v1.0.3:
           debug: true
           type: upload
           artifacts-path-env: YOUR_ENV 
