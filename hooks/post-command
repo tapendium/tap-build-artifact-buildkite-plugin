@@ -9,24 +9,25 @@ DEBUG_FLAG="${PREFIX}DEBUG"
 # shellcheck source=lib/shared.sh
 . "$CWD/../lib/shared.sh"
 
-if [[ "${!DEBUG_FLAG:-false}" =~ (true|on|1) ]] ; then
-  echo "~~~ :hammer: Enabling debug mode"
-  set -x
+if [[ "${!DEBUG_FLAG:-false}" =~ (true|on|1) ]]; then
+	echo "~~~ :hammer: Enabling debug mode"
+	set -x
 fi
 
 RUN_TYPE=upload
-COMMIT_HASH=$BUILDKITE_COMMIT
 TYPE=$(plugin_read_config TYPE)
-ARTIFACTS_PATH_ENV=$(plugin_read_config ARTIFACTS_PATH_ENV)
+ARTIFACTS_PATH_ENV_NAME=$(plugin_read_config ARTIFACTS_PATH_ENV)
+if [ -n "$ARTIFACTS_PATH_ENV_NAME" ]; then
+	ARTIFACTS_PATH_ENV=${!ARTIFACTS_PATH_ENV_NAME}
+fi
+ARTIFACTS_PATH=$(plugin_read_config ARTIFACTS_PATH)
+RESOLVED_PATH=${ARTIFACTS_PATH_ENV:-${ARTIFACTS_PATH:-}}
 
-if [ "$TYPE" != "$RUN_TYPE" ]
-then
-  echo "[INFO] type not equal $RUN_TYPE"
-  exit 0
+if [ "$TYPE" != "$RUN_TYPE" ]; then
+	echo "[INFO] type not equal $RUN_TYPE"
+	exit 0
 fi
 
-buildkite_metadata_set "TAP_BUILD_$COMMIT_HASH" "$BUILDKITE_BUILD_ID"
-if [ -n "$ARTIFACTS_PATH_ENV" ]; then
-  buildkite_artifact_upload "${!ARTIFACTS_PATH_ENV}"
+if [ -n "$RESOLVED_PATH" ]; then
+	buildkite_artifact_upload "${RESOLVED_PATH}"
 fi
-
