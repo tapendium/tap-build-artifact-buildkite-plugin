@@ -6,28 +6,52 @@ A private [Buildkite Plugin](https://buildkite.com/docs/agent/v3/plugins) to upl
 
 ```yml
 steps:
-  - label: ':lint-roller: Validate my schemas!'
+  - label: 'Download artifacts'
     env:
       - YOUR_ENV: 'path/to/*'
     plugins:
-      - tapendium/tap-build-artifact#v1.0.3:
+      - tapendium/tap-build-artifact#v1.1.0:
           debug: true
           type: download
-          artifacts-path-env: YOUR_ENV 
+          artifacts-path-env: YOUR_ENV
+```
+
+**Specifying artifact path directly**
+
+```yml
+steps:
+  - label: 'Download artifacts'
+    plugins:
+      - tapendium/tap-build-artifact#v1.1.0:
+          debug: true
+          type: download
+          artifacts-path: path/to/*
 ```
 
 ## Upload Example
 
 ```yml
 steps:
-  - label: ':lint-roller: Validate my schemas!'
+  - label: 'Upload artifacts'
     env:
       - YOUR_ENV: 'path/to/*'
     plugins:
-      - tapendium/tap-build-artifact#v1.0.3:
+      - tapendium/tap-build-artifact#v1.1.0:
           debug: true
           type: upload
-          artifacts-path-env: YOUR_ENV 
+          artifacts-path-env: YOUR_ENV
+```
+
+**Specifying artifact path directly**
+
+```yml
+steps:
+  - label: 'Upload artifacts'
+    plugins:
+      - tapendium/tap-build-artifact#v1.1.0:
+          debug: true
+          type: upload
+          artifacts-path: path/to/*
 ```
 
 ## Developing
