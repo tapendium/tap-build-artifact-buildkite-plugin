@@ -15,7 +15,6 @@ if [[ "${!DEBUG_FLAG:-false}" =~ (true|on|1) ]]; then
 fi
 
 RUN_TYPE=upload
-COMMIT_HASH=$BUILDKITE_COMMIT
 TYPE=$(plugin_read_config TYPE)
 ARTIFACTS_PATH_ENV_NAME=$(plugin_read_config ARTIFACTS_PATH_ENV)
 if [ -n "$ARTIFACTS_PATH_ENV_NAME" ]; then
