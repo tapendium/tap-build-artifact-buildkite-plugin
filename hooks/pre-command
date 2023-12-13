@@ -19,7 +19,12 @@ REPO_GIT=${BUILDKITE_REPO#git@github.com:"$BUILDKITE_ORGANIZATION_SLUG"/*}
 REPO_NAME=${REPO_GIT%*.git}
 REPO=${REPO_NAME:-$(plugin_read_config REPO)} 
 TYPE=$(plugin_read_config TYPE)
-ARTIFACTS_PATH_ENV=$(plugin_read_config ARTIFACTS_PATH_ENV)
+ARTIFACTS_PATH_ENV_NAME=$(plugin_read_config ARTIFACTS_PATH_ENV)
+if [ -n "$ARTIFACTS_PATH_ENV_NAME" ]; then
+  ARTIFACTS_PATH_ENV=${!ARTIFACTS_PATH_ENV_NAME}
+fi
+ARTIFACTS_PATH=$(plugin_read_config ARTIFACTS_PATH)
+RESOLVED_PATH=${ARTIFACTS_PATH_ENV:-${ARTIFACTS_PATH:-}}
 
 if [ "$TYPE" != "$RUN_TYPE" ]
 then
@@ -35,9 +40,9 @@ then
   IS_VALID=false
 fi
 
-if [ -z "$ARTIFACTS_PATH_ENV" ]
+if [ -z "$ARTIFACTS_PATH_ENV_NAME" ] && [ -z "$ARTIFACTS_PATH" ];
 then
-  echo "[ERROR] artifacts-path-env not defined"
+  echo "[ERROR] artifacts-path or artifacts-path-env must be defined"
   IS_VALID=false
 fi
 
@@ -61,4 +66,4 @@ echo "$PIPELINE_SLUG"
 echo "$HEAD_COMMIT"
 echo "$HEAD_COMMIT_BUILD_ID"
 
-buildkite_artifact_download "${!ARTIFACTS_PATH_ENV}" '.' --build "$HEAD_COMMIT_BUILD_ID"
+buildkite_artifact_download "${RESOLVED_PATH}" '.' --build "$HEAD_COMMIT_BUILD_ID"

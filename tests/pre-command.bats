@@ -36,7 +36,7 @@ function buildkite-agent() {
   export -f git
   run "$pre_command_hook"
   assert_failure
-  assert_output --partial "[ERROR] artifacts-path-env not defined"
+  assert_output --partial "[ERROR] artifacts-path or artifacts-path-env must be defined"
 }
 
 @test "Runs and failed when repo not defined" {
