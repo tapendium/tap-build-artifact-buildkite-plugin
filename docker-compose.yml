@@ -12,3 +12,10 @@ services:
     volumes:
       - ".:/plugin:ro"
 
+  format:
+    image: mvdan/shfmt
+    volumes:
+      - '.:/data'
+    command:
+      - --write
+      - ./data
