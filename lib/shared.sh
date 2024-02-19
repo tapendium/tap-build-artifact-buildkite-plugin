@@ -15,7 +15,17 @@ function buildkite_artifact_upload() {
 }
 
 function buildkite_artifact_download() {
-	buildkite-agent artifact download "$@"
+	if ! buildkite-agent artifact download "$@"; then
+		local var="${PREFIX}IGNORE_MISSING"
+		if [[ "${!var:-"false"}" != "false" ]]; then
+			echo "Ignoring error in download of" "${@: -2}"
+		else
+			echo "Error in download of" "${@: -2}"
+			return 1
+		fi
+	fi
+
+	return 0
 }
 
 # Shorthand for reading env config

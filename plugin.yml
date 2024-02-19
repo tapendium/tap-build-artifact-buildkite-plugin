@@ -14,6 +14,8 @@ configuration:
     type:
       type: string
       enum: ["download", "upload"]
+    ignore-missing:
+      type: boolean
     debug:
       type: boolean
   required:

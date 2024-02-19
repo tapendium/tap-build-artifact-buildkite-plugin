@@ -28,6 +28,19 @@ steps:
           artifacts-path: path/to/*
 ```
 
+**Ignore errors when path not found**
+
+```yml
+steps:
+  - label: 'Download artifacts'
+    plugins:
+      - tapendium/tap-build-artifact#v1.1.0:
+          debug: true
+          type: download
+          artifacts-path: path/to/*
+          ignore-missing: true
+```
+
 ## Upload Example
 
 ```yml
