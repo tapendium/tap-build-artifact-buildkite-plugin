@@ -65,6 +65,7 @@ function buildkite-agent() {
 	export SOME_ENV="path/path/**"
 	export ${prefix}ARTIFACTS_PATH_ENV="SOME_ENV"
 	export ${prefix}REPO="organisations"
+	export ${prefix}DEBUG="true"
 	export -f buildkite-agent
 	export -f git
 	export -f curl

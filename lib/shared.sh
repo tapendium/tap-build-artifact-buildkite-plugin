@@ -24,8 +24,6 @@ function buildkite_artifact_download() {
 			return 1
 		fi
 	fi
-
-	return 0
 }
 
 # Shorthand for reading env config

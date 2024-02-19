@@ -10,7 +10,7 @@ steps:
     env:
       - YOUR_ENV: 'path/to/*'
     plugins:
-      - tapendium/tap-build-artifact#v1.1.0:
+      - tapendium/tap-build-artifact#v1.1.1:
           debug: true
           type: download
           artifacts-path-env: YOUR_ENV
@@ -22,7 +22,7 @@ steps:
 steps:
   - label: 'Download artifacts'
     plugins:
-      - tapendium/tap-build-artifact#v1.1.0:
+      - tapendium/tap-build-artifact#v1.1.1:
           debug: true
           type: download
           artifacts-path: path/to/*
@@ -34,7 +34,7 @@ steps:
 steps:
   - label: 'Download artifacts'
     plugins:
-      - tapendium/tap-build-artifact#v1.1.0:
+      - tapendium/tap-build-artifact#v1.1.1:
           debug: true
           type: download
           artifacts-path: path/to/*
@@ -49,7 +49,7 @@ steps:
     env:
       - YOUR_ENV: 'path/to/*'
     plugins:
-      - tapendium/tap-build-artifact#v1.1.0:
+      - tapendium/tap-build-artifact#v1.1.1:
           debug: true
           type: upload
           artifacts-path-env: YOUR_ENV
@@ -61,7 +61,7 @@ steps:
 steps:
   - label: 'Upload artifacts'
     plugins:
-      - tapendium/tap-build-artifact#v1.1.0:
+      - tapendium/tap-build-artifact#v1.1.1:
           debug: true
           type: upload
           artifacts-path: path/to/*
