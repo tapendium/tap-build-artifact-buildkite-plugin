@@ -10,7 +10,7 @@ steps:
     env:
       - YOUR_ENV: 'path/to/*'
     plugins:
-      - tapendium/tap-build-artifact#v1.1.0:
+      - tapendium/tap-build-artifact#v1.1.1:
           debug: true
           type: download
           artifacts-path-env: YOUR_ENV
@@ -22,10 +22,23 @@ steps:
 steps:
   - label: 'Download artifacts'
     plugins:
-      - tapendium/tap-build-artifact#v1.1.0:
+      - tapendium/tap-build-artifact#v1.1.1:
           debug: true
           type: download
           artifacts-path: path/to/*
+```
+
+**Ignore errors when path not found**
+
+```yml
+steps:
+  - label: 'Download artifacts'
+    plugins:
+      - tapendium/tap-build-artifact#v1.1.1:
+          debug: true
+          type: download
+          artifacts-path: path/to/*
+          ignore-missing: true
 ```
 
 ## Upload Example
@@ -36,7 +49,7 @@ steps:
     env:
       - YOUR_ENV: 'path/to/*'
     plugins:
-      - tapendium/tap-build-artifact#v1.1.0:
+      - tapendium/tap-build-artifact#v1.1.1:
           debug: true
           type: upload
           artifacts-path-env: YOUR_ENV
@@ -48,7 +61,7 @@ steps:
 steps:
   - label: 'Upload artifacts'
     plugins:
-      - tapendium/tap-build-artifact#v1.1.0:
+      - tapendium/tap-build-artifact#v1.1.1:
           debug: true
           type: upload
           artifacts-path: path/to/*
